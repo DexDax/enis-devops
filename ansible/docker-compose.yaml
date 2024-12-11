@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend-app:
+    image: 423623851878.dkr.ecr.us-east-1.amazonaws.com/enis-app:backend-1.0 # Use the already pulled image
+    container_name: backend-app
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - my_bridge
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/login/?next=/admin/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  frontend-app:
+    image: 423623851878.dkr.ecr.us-east-1.amazonaws.com/enis-app:frontend-1.0 # Use the already built image
+    container_name: frontend-app
+    restart: always
+    ports:
+      - "81:80"
+    networks:
+      - my_bridge
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  my_bridge:
+    external: true
+

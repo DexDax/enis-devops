@@ -1,0 +1,6 @@
+[servers]
+54.86.51.170 # your ec2 instance public ip address
+[servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_private_key_file=deployer_key.pem
+ansible_user=ubuntu
